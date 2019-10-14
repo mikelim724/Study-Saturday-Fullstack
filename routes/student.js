@@ -17,6 +17,20 @@ router.get('/', function(req, res, next) {
   );
 });
 
+router.post('/', async function(req, res, next) {
+  try {
+    const newStudent = await Student.create(req.body);
+    const newTest = await Test.create({
+      subject: 'Math',
+      grade: 90,
+      studentId: newStudent.id,
+    });
+    console.log(newStudent, newTest);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put('/:id', function(req, res, next) {
   Student.update(req.body, {
     where: {
